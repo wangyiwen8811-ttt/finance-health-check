@@ -643,18 +643,19 @@
       padding: 58px 62px;
       background: #fff;
       overflow: hidden;
-      break-before: page;
-      page-break-before: always;
     }
 
     .report-cover {
       min-height: 1000px;
       display: grid;
       align-content: center;
-      break-before: auto;
-      page-break-before: auto;
       page-break-after: always;
       break-after: page;
+    }
+
+    .report-page-break {
+      break-before: page;
+      page-break-before: always;
     }
 
     .report-page::before,
@@ -787,6 +788,14 @@
       color: var(--green-dark);
       font-size: 16px;
       font-weight: 850;
+      line-height: 1.55;
+    }
+
+    .report-wechat-hook {
+      margin: 0 0 10px;
+      color: #205b3b;
+      font-size: 13px;
+      font-weight: 750;
       line-height: 1.55;
     }
 
@@ -1553,6 +1562,7 @@
             </div>
             <div class="report-wechat">
               <div>
+                <div class="report-wechat-hook">财务问题看起来相似，背后的原因可能完全不同：有人是记录不清，有人是流程断点，也有人是决策没有及时数据支撑。发送报告后，我会结合你的测试结果，帮你判断应该先从哪里排查。</div>
                 <p>扫码添加「团掌柜」微信并发送报告，可获得人工解读及定制化行动清单。</p>
                 <code>${escapeHtml(CONFIG.wechatId)}</code>
               </div>
@@ -1568,16 +1578,14 @@
               <h3>${escapeHtml(lastResult.focusLabel)}</h3>
               <p>${escapeHtml(lastResult.weakest.diagnosis)}</p>
             </div>
-          </section>
-          <section class="report-page">
             <h2>你的财务整理行动地图</h2>
             <div class="report-action-list">${actionMapHtml}</div>
           </section>
-          <section class="report-page">
+          <section class="report-page report-page-break">
             <h2>五维得分</h2>
             <div class="report-dimension-list">${dimensionHtml}</div>
           </section>
-          <section class="report-page report-final">
+          <section class="report-page report-final report-page-break">
             <h2>说明</h2>
             <div class="report-wechat">
               <div>
@@ -1587,7 +1595,7 @@
               <img src="${escapeHtml(CONFIG.qrImage)}" alt="团掌柜微信二维码">
             </div>
             <div class="report-highlight">
-              如果你需要本报告中的模板、与你的业务系统联动的自动化看板、定制化的深度财务流程梳理，可联系团掌柜了解详情。
+              这份报告先帮你看清主要卡点和行动方向；如果你愿意进一步提供相关信息，我会围绕你最突出的一个财务痛点，帮你拆出更具体的原因，并给出针对你的痛点的定制化解决方案。
             </div>
             <p class="report-muted" style="margin-top:14px;">本工具用于经营财务管理自测，结果仅供管理参考，不涉及税务、审计或会计准则判断。</p>
             <p class="report-muted">本工具不要求填写公司名称、手机号、真实金额或具体财务数据。测试结果只保存在当前浏览器，不上传后台。</p>
