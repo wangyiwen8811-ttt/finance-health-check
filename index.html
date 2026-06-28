@@ -172,6 +172,13 @@
     }
 
     .btn-primary:hover { background: var(--green-dark); }
+    .btn-report {
+      min-height: 56px;
+      padding: 15px 22px;
+      background: linear-gradient(135deg, var(--green), #0f6f54);
+      font-size: 18px;
+      box-shadow: 0 14px 32px rgba(28, 122, 75, .26);
+    }
     .btn-secondary { color: var(--ink); background: #edf2ef; }
     .btn-ghost { color: var(--green-dark); background: transparent; }
     .btn:focus-visible, .option input:focus-visible + span, .copy-field button:focus-visible {
@@ -610,6 +617,218 @@
       font-weight: 850;
     }
 
+    .report-print-root {
+      position: absolute;
+      left: -99999px;
+      top: 0;
+      width: 390px;
+      background: #fff;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+
+    .report-document {
+      width: 390px;
+      background: #fff;
+    }
+
+    .report-page {
+      min-height: 552px;
+      padding: 22px;
+      background: #fff;
+      page-break-after: always;
+    }
+
+    .report-page:last-child { page-break-after: auto; }
+    .report-kicker {
+      display: inline-flex;
+      margin-bottom: 10px;
+      padding: 4px 8px;
+      border-radius: var(--radius);
+      color: var(--green-dark);
+      background: var(--green-soft);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .report-document h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1.12;
+    }
+
+    .report-document h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      line-height: 1.18;
+    }
+
+    .report-document h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      line-height: 1.3;
+    }
+
+    .report-muted {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .report-score-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0 12px;
+    }
+
+    .report-card {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper-soft);
+    }
+
+    .report-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .report-card strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .report-wechat {
+      display: grid;
+      grid-template-columns: 1fr 96px;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+      padding: 12px;
+      border: 1px solid rgba(28, 122, 75, .2);
+      border-radius: var(--radius);
+      background: var(--green-soft);
+    }
+
+    .report-wechat p {
+      margin: 0;
+      color: var(--green-dark);
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.55;
+    }
+
+    .report-wechat code {
+      display: block;
+      margin-top: 5px;
+      color: var(--ink);
+      font-family: inherit;
+      font-weight: 900;
+    }
+
+    .report-wechat img {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .report-highlight {
+      margin: 12px 0;
+      padding: 12px;
+      border-radius: var(--radius);
+      color: #205b3b;
+      background: var(--green-soft);
+      font-weight: 850;
+      line-height: 1.55;
+    }
+
+    .report-warning {
+      padding: 12px;
+      border: 1px solid rgba(180, 63, 51, .24);
+      border-radius: var(--radius);
+      background: var(--red-soft);
+      line-height: 1.6;
+    }
+
+    .report-dimension-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .report-dimension {
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .report-dimension-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .report-dimension-score {
+      color: var(--green-dark);
+      font-size: 22px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .report-answer-list {
+      display: grid;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .report-answer {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper-soft);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .report-answer b {
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius);
+      color: var(--green-dark);
+      background: var(--green-soft);
+      font-size: 11px;
+    }
+
+    .report-answer-choice {
+      margin-top: 3px;
+      color: var(--blue);
+      font-weight: 850;
+    }
+
+    @media print {
+      body { background: #fff; }
+      .app, .modal { display: none !important; }
+      .report-print-root {
+        position: static;
+        left: auto;
+        width: 100%;
+      }
+      .report-document { width: 100%; }
+    }
+
     @media (max-width: 760px) {
       .app { padding: 14px 12px 30px; }
       .hero { min-height: auto; padding-top: 12px; }
@@ -671,6 +890,7 @@
       .summary-card { padding: 10px; }
       .summary-card strong { font-size: 18px; }
       .dimension-card p { margin-bottom: 0; }
+      .btn-report { width: 100%; min-height: 58px; }
     }
   </style>
 </head>
@@ -754,39 +974,20 @@
           </div>
         </div>
 
-        <p class="note">建议先截图保存核心结论。本工具不上传测试数据，人工解读需要你发送结果截图；如果更换设备、清理浏览器或关闭后无法找回，可能需要重新测试。</p>
+        <p class="note">下载诊断报告后，可保存你的 20 题选择、五维得分和诊断结论；本工具不上传测试数据，如果更换设备、清理浏览器或关闭后无法找回，可能需要重新测试。</p>
         <div class="cta-row">
-          <button class="btn btn-primary" type="button" id="detailBtn">查看五维详细分析</button>
+          <button class="btn btn-primary btn-report" type="button" id="reportBtn">下载诊断报告</button>
           <button class="btn btn-secondary" type="button" id="reviewBtn">返回修改</button>
           <button class="btn btn-ghost" type="button" id="restartBtn">重新测试</button>
         </div>
         <p class="fine-print">本工具用于经营财务管理自测，结果仅供管理参考，不涉及税务、审计或会计准则判断。</p>
       </section>
 
-      <section class="result" id="detailResult">
-        <div class="dimension-head">
-          <h2>五维详细分析</h2>
-          <p>截图本页即可保留总分、阶段、重点维度和五维得分。</p>
-        </div>
-        <div class="detail-summary">
-          <div class="summary-card"><span>财务健康分</span><strong id="detailTotalScore">0</strong></div>
-          <div class="summary-card"><span>阶段</span><strong id="detailStage"></strong></div>
-          <div class="summary-card"><span>主要卡点</span><strong id="detailWeak"></strong></div>
-        </div>
-        <div class="dimension-list" id="dimensionList"></div>
-        <p class="note">建议截图本页后再添加微信，方便人工解读时直接看到你的总分、阶段和五维得分。</p>
-        <div class="result-block" style="margin-top:14px;">
-          <h3>预约人工报告解读</h3>
-          <p>截图本页后，扫码添加「团掌柜」微信，发送测试结果截图，预约人工报告解读。我会根据测试结果，帮你定位主要问题，并给你下一步排查方向。</p>
-        </div>
-        <div class="cta-row">
-          <button class="btn btn-primary" type="button" id="wechatBtn">预约人工报告解读</button>
-          <button class="btn btn-secondary" type="button" id="backCoreBtn">返回核心诊断</button>
-          <button class="btn btn-ghost" type="button" id="restartBtn2">重新测试</button>
-        </div>
-      </section>
+      <section class="result" id="detailResult"></section>
     </section>
   </main>
+
+  <div class="report-print-root" id="reportRoot" aria-hidden="true"></div>
 
   <div class="modal" id="wechatModal" role="dialog" aria-modal="true" aria-labelledby="wechatTitle">
     <div class="modal-card">
@@ -806,6 +1007,7 @@
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     const CONFIG = {
       wechatId: "wangxiaotuan2024",
@@ -1013,7 +1215,7 @@
 
     function getDimensionStatus(score) {
       if (score <= 49) return { label: "高风险", className: "status-risk" };
-      if (score <= 64) return { label: "待整理", className: "" };
+      if (score <= 64) return { label: "待加强", className: "" };
       if (score <= 84) return { label: "有基础", className: "status-ok" };
       return { label: "较成熟", className: "status-ok" };
     }
@@ -1139,31 +1341,156 @@
       $("testShell").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    function showDetailResult() {
-      if (!lastResult) lastResult = buildResult();
-      $("home").style.display = "none";
-      $("testTopbar").style.display = "none";
-      $("quizForm").style.display = "none";
-      $("coreResult").style.display = "none";
-      $("detailResult").style.display = "block";
-      $("detailTotalScore").textContent = lastResult.displayScore;
-      $("detailStage").textContent = lastResult.stage.label;
-      $("detailWeak").textContent = lastResult.focusNames;
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
-      $("dimensionList").innerHTML = lastResult.scores.map((item) => `
-        <div class="dimension-card">
-          <div class="dimension-top">
+    function formatDateTime(date = new Date()) {
+      const pad = (num) => String(num).padStart(2, "0");
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    function getAnswerRows() {
+      const rows = [];
+      dimensions.forEach((dimension, dimensionIndex) => {
+        dimension.questions.forEach((question, questionIndex) => {
+          const value = state.answers[key(dimensionIndex, questionIndex)];
+          const option = options.find((item) => item.value === value) || options[0];
+          rows.push({
+            index: dimensionIndex * 4 + questionIndex + 1,
+            dimension: dimension.name,
+            question,
+            option,
+            score: value || 0
+          });
+        });
+      });
+      return rows;
+    }
+
+    function buildReportHtml() {
+      if (!lastResult) lastResult = buildResult();
+      const answerRows = getAnswerRows();
+      const focusTitle = lastResult.weakestGroup.length > 1
+        ? `${lastResult.focusLabel}集中在：${lastResult.focusNames}`
+        : `${lastResult.focusLabel}是：${lastResult.focusNames}`;
+      const dimensionHtml = lastResult.scores.map((item) => `
+        <div class="report-dimension">
+          <div class="report-dimension-top">
             <div>
-              <h3>${item.name}</h3>
-              <span class="status-pill ${item.status.className}">${item.status.label}</span>
+              <h3>${escapeHtml(item.name)}</h3>
+              <span class="status-pill ${item.status.className}">${escapeHtml(item.status.label)}</span>
             </div>
-            <div class="dimension-score">${item.contribution}/20</div>
+            <div class="report-dimension-score">${item.contribution}分</div>
           </div>
           <div class="bar-track"><div class="bar-fill" style="width:${item.percent}%"></div></div>
-          <p>${item.detail}</p>
+          <div class="report-muted">${escapeHtml(item.detail)}</div>
         </div>
       `).join("");
-      $("testShell").scrollIntoView({ behavior: "smooth", block: "start" });
+      const answerHtml = answerRows.map((row) => `
+        <div class="report-answer">
+          <b>${row.index}</b>
+          <div>
+            <div>${escapeHtml(row.question)}</div>
+            <div class="report-answer-choice">${escapeHtml(row.option.code)}. ${escapeHtml(row.option.label)}｜${row.score}分｜${escapeHtml(row.dimension)}</div>
+          </div>
+        </div>
+      `).join("");
+      return `
+        <article class="report-document">
+          <section class="report-page">
+            <span class="report-kicker">小公司经营财务自测</span>
+            <h1>小公司财务健康诊断报告</h1>
+            <p class="report-muted">生成时间：${formatDateTime()}｜本报告根据 20 道自测题生成，不要求填写真实金额。</p>
+            <div class="report-score-row">
+              <div class="report-card"><span>财务健康分</span><strong>${lastResult.displayScore}</strong></div>
+              <div class="report-card"><span>阶段</span><strong>${escapeHtml(lastResult.stage.label)}</strong></div>
+            </div>
+            <div class="report-card">
+              <span>${escapeHtml(lastResult.focusLabel)}</span>
+              <strong>${escapeHtml(lastResult.focusNames)}</strong>
+            </div>
+            <div class="report-wechat">
+              <div>
+                <p>扫码添加「团掌柜」微信<br>发送本报告，预约人工报告解读</p>
+                <code>${escapeHtml(CONFIG.wechatId)}</code>
+              </div>
+              <img src="${escapeHtml(CONFIG.qrImage)}" alt="团掌柜微信二维码">
+            </div>
+            <p class="report-muted" style="margin-top:14px;">五项得分合计为财务健康分。维度状态用于判断当前更需要优先整理的环节。</p>
+          </section>
+          <section class="report-page">
+            <h2>诊断结论</h2>
+            <div class="report-highlight">${escapeHtml(focusTitle)}</div>
+            <p class="report-muted" style="font-size:13px;">${escapeHtml(lastResult.stage.text)}</p>
+            ${lastResult.bridge ? `<p class="report-muted" style="font-size:13px;color:#bd6b1e;">${escapeHtml(lastResult.bridge)}</p>` : ""}
+            <div class="report-warning">
+              <h3>${escapeHtml(lastResult.focusLabel)}</h3>
+              <p>${escapeHtml(lastResult.weakest.diagnosis)}</p>
+            </div>
+            <div class="report-highlight">
+              <h3>优先建议</h3>
+              <p>${escapeHtml(lastResult.weakest.advice)}</p>
+            </div>
+          </section>
+          <section class="report-page">
+            <h2>五维得分</h2>
+            <p class="report-muted">五项得分合计为财务健康分。这里展示的是各维度对总分的贡献，不是原始答题分。</p>
+            <div class="report-dimension-list">${dimensionHtml}</div>
+          </section>
+          <section class="report-page">
+            <h2>20题答题明细</h2>
+            <p class="report-muted">以下为本次自测选择，方便你复盘，也方便后续人工解读。</p>
+            <div class="report-answer-list">${answerHtml}</div>
+          </section>
+          <section class="report-page">
+            <h2>说明</h2>
+            <div class="report-wechat">
+              <div>
+                <p>如需人工解读，请添加「团掌柜」微信，发送本报告。</p>
+                <code>${escapeHtml(CONFIG.wechatId)}</code>
+              </div>
+              <img src="${escapeHtml(CONFIG.qrImage)}" alt="团掌柜微信二维码">
+            </div>
+            <p class="report-muted" style="margin-top:14px;">本工具用于经营财务管理自测，结果仅供管理参考，不涉及税务、审计或会计准则判断。</p>
+            <p class="report-muted">本工具不要求填写公司名称、手机号、真实金额或具体财务数据。测试结果只保存在当前浏览器，不上传后台。</p>
+          </section>
+        </article>
+      `;
+    }
+
+    async function downloadReport() {
+      if (!lastResult) lastResult = buildResult();
+      const reportButton = $("reportBtn");
+      reportButton.disabled = true;
+      reportButton.textContent = "正在生成报告...";
+      $("reportRoot").innerHTML = buildReportHtml();
+      const report = $("reportRoot").querySelector(".report-document");
+      try {
+        if (window.html2pdf) {
+          await window.html2pdf().set({
+            margin: 0,
+            filename: `小公司财务健康诊断报告_${formatDateTime().slice(0, 10)}.pdf`,
+            image: { type: "jpeg", quality: 0.96 },
+            html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+            pagebreak: { mode: ["css", "legacy"] }
+          }).from(report).save();
+        } else {
+          window.print();
+        }
+      } catch (error) {
+        console.error(error);
+        alert("报告生成遇到问题，请稍后重试；你也可以先截图保存当前结果。");
+      } finally {
+        reportButton.disabled = false;
+        reportButton.textContent = "下载诊断报告";
+      }
     }
 
     function resetQuiz() {
@@ -1210,13 +1537,9 @@
       showCoreResult();
     });
 
-    $("detailBtn").addEventListener("click", showDetailResult);
-    $("backCoreBtn").addEventListener("click", showCoreResult);
+    $("reportBtn").addEventListener("click", downloadReport);
     $("reviewBtn").addEventListener("click", () => renderDimension());
     $("restartBtn").addEventListener("click", resetQuiz);
-    $("restartBtn2").addEventListener("click", resetQuiz);
-
-    $("wechatBtn").addEventListener("click", () => $("wechatModal").classList.add("open"));
     $("closeModal").addEventListener("click", () => $("wechatModal").classList.remove("open"));
     $("wechatModal").addEventListener("click", (event) => {
       if (event.target === $("wechatModal")) $("wechatModal").classList.remove("open");
