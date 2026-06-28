@@ -395,6 +395,13 @@
       font-size: 16px;
     }
 
+    .result-bridge {
+      margin: 10px 0 0;
+      color: var(--orange);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
     .result-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -712,13 +719,14 @@
             <span class="stage-label" id="stageLabel"></span>
             <h2 id="resultTitle"></h2>
             <p class="result-lead" id="resultLead"></p>
+            <p class="result-bridge" id="resultBridge"></p>
           </div>
         </div>
 
         <div class="result-grid">
           <div class="result-block weak-block">
             <span class="weak-name" id="weakName"></span>
-            <h3>主要卡点</h3>
+            <h3 id="focusBlockTitle">主要卡点</h3>
             <p id="weakDiagnosis"></p>
           </div>
           <div class="result-block">
@@ -984,18 +992,55 @@
       return [...scores].sort((a, b) => a.raw - b.raw || a.priority - b.priority)[0];
     }
 
+    function getWeakestGroup(scores) {
+      const minRaw = Math.min(...scores.map((item) => item.raw));
+      return scores
+        .filter((item) => item.raw === minRaw)
+        .sort((a, b) => a.priority - b.priority);
+    }
+
+    function getFocusLabel(score) {
+      if (score <= 64) return "主要卡点";
+      if (score <= 84) return "优先整理项";
+      return "优先关注项";
+    }
+
+    function formatFocusNames(items) {
+      const names = items.slice(0, 2).map((item) => item.name);
+      return items.length > 2 ? `${names.join("、")}等多个维度` : names.join("、");
+    }
+
+    function getResultBridge(result) {
+      const tiedNames = result.weakestGroup.map((item) => item.name);
+      const messages = [];
+      if (result.displayScore >= 80 && result.weakest.percent <= 64) {
+        messages.push("你的整体分数不低，但这个维度已经明显拖后腿。总分高不代表每一项都稳，建议优先把这个环节整理清楚。");
+      }
+      if (result.focusLabel === "优先关注项") {
+        messages.push("你的整体财务管理成熟度较高，目前没有明显短板。系统会选出一个优先关注项，方便你继续保持关键节奏。");
+      }
+      if (result.weakest.percent <= 64 && tiedNames.includes("现金流撑不住") && tiedNames.includes("回款追不回")) {
+        messages.push("回款慢会进一步放大现金流压力，这两个问题建议放在一起看。");
+      }
+      return messages.join(" ");
+    }
+
     function buildResult() {
       const scores = dimensionScores();
       const rawTotal = scores.reduce((sum, item) => sum + item.raw, 0);
       const displayScore = Math.round(rawTotal / 80 * 100);
       const stage = getStage(displayScore);
       const weakest = getWeakest(scores);
+      const weakestGroup = getWeakestGroup(scores);
+      const focusLabel = getFocusLabel(weakest.percent);
+      const focusNames = formatFocusNames(weakestGroup);
       const displayedAverage = Math.round(scores.reduce((sum, item) => sum + item.percent, 0) / scores.length);
       const scoreDiff = Math.abs(displayedAverage - displayScore);
       if (scoreDiff > 1) {
         console.info("维度展示分平均值与总分存在四舍五入差异，页面不展示五维平均分。");
       }
-      return { rawTotal, displayScore, stage, weakest, scores };
+      const result = { rawTotal, displayScore, stage, weakest, weakestGroup, focusLabel, focusNames, scores };
+      return { ...result, bridge: getResultBridge(result) };
     }
 
     function saveResult() {
@@ -1044,9 +1089,14 @@
       $("totalScore").textContent = lastResult.displayScore;
       $("scoreRing").style.setProperty("--score-angle", `${lastResult.displayScore * 3.6}deg`);
       $("stageLabel").textContent = `${lastResult.stage.label}｜${lastResult.stage.min}-${lastResult.stage.max}分`;
-      $("resultTitle").textContent = `你的主要卡点是：${lastResult.weakest.name}`;
+      $("resultTitle").textContent = lastResult.weakestGroup.length > 1
+        ? `你的${lastResult.focusLabel}集中在：${lastResult.focusNames}`
+        : `你的${lastResult.focusLabel}是：${lastResult.focusNames}`;
       $("resultLead").textContent = lastResult.stage.text;
-      $("weakName").textContent = lastResult.weakest.name;
+      $("resultBridge").textContent = lastResult.bridge;
+      $("resultBridge").style.display = lastResult.bridge ? "block" : "none";
+      $("weakName").textContent = lastResult.focusNames;
+      $("focusBlockTitle").textContent = lastResult.focusLabel;
       $("weakDiagnosis").textContent = lastResult.weakest.diagnosis;
       $("priorityAdvice").textContent = lastResult.weakest.advice;
       $("testShell").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1060,7 +1110,7 @@
       $("detailResult").style.display = "block";
       $("detailTotalScore").textContent = lastResult.displayScore;
       $("detailStage").textContent = lastResult.stage.label;
-      $("detailWeak").textContent = lastResult.weakest.name;
+      $("detailWeak").textContent = lastResult.focusNames;
 
       $("dimensionList").innerHTML = lastResult.scores.map((item) => `
         <div class="dimension-card">
