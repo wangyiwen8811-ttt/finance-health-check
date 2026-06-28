@@ -643,12 +643,16 @@
       padding: 58px 62px;
       background: #fff;
       overflow: hidden;
+      break-before: page;
+      page-break-before: always;
     }
 
     .report-cover {
       min-height: 1000px;
       display: grid;
       align-content: center;
+      break-before: auto;
+      page-break-before: auto;
       page-break-after: always;
       break-after: page;
     }
@@ -899,43 +903,6 @@
       font-weight: 850;
     }
 
-    .report-answer-list {
-      display: grid;
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    .report-answer {
-      display: grid;
-      grid-template-columns: 24px 1fr;
-      gap: 8px;
-      padding: 7px 8px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper-soft);
-      font-size: 11px;
-      line-height: 1.38;
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-
-    .report-answer b {
-      display: inline-grid;
-      place-items: center;
-      width: 24px;
-      height: 24px;
-      border-radius: var(--radius);
-      color: var(--green-dark);
-      background: var(--green-soft);
-      font-size: 11px;
-    }
-
-    .report-answer-choice {
-      margin-top: 3px;
-      color: var(--blue);
-      font-weight: 850;
-    }
-
     @media print {
       body { background: #fff; }
       .app, .modal { display: none !important; }
@@ -1088,7 +1055,7 @@
           </div>
         </div>
 
-        <p class="note">下载诊断报告后，可保存你的 20 题选择、五维得分和诊断结论；本工具不上传测试数据，如果更换设备、清理浏览器或关闭后无法找回，可能需要重新测试。</p>
+        <p class="note">下载诊断报告后，可保存你的诊断结论、行动地图和五维得分；本工具不上传测试数据，如果更换设备、清理浏览器或关闭后无法找回，可能需要重新测试。</p>
         <div class="cta-row">
           <button class="btn btn-primary btn-report" type="button" id="reportBtn">下载诊断报告</button>
           <button class="btn btn-secondary" type="button" id="reviewBtn">返回修改</button>
@@ -1534,7 +1501,6 @@
 
     function buildReportHtml() {
       if (!lastResult) lastResult = buildResult();
-      const answerRows = getAnswerRows();
       const focusTitle = lastResult.weakestGroup.length > 1
         ? `${lastResult.focusLabel}集中在：${lastResult.focusNames}`
         : `${lastResult.focusLabel}是：${lastResult.focusNames}`;
@@ -1564,15 +1530,6 @@
               <span class="report-tool">对应工具：${escapeHtml(step.tool)}</span>
             </div>
           `).join("")}
-        </div>
-      `).join("");
-      const answerHtml = answerRows.map((row) => `
-        <div class="report-answer">
-          <b>${row.index}</b>
-          <div>
-            <div>${escapeHtml(row.question)}</div>
-            <div class="report-answer-choice">${escapeHtml(row.option.code)}. ${escapeHtml(row.option.label)}｜${row.score}分｜${escapeHtml(row.dimension)}</div>
-          </div>
         </div>
       `).join("");
       return `
@@ -1619,11 +1576,6 @@
           <section class="report-page">
             <h2>五维得分</h2>
             <div class="report-dimension-list">${dimensionHtml}</div>
-          </section>
-          <section class="report-page">
-            <h2>20题答题明细</h2>
-            <p class="report-muted">以下为本次自测选择，方便你复盘，也方便后续人工解读。</p>
-            <div class="report-answer-list">${answerHtml}</div>
           </section>
           <section class="report-page report-final">
             <h2>说明</h2>
