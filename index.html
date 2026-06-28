@@ -355,7 +355,7 @@
       border-radius: 50%;
       background:
         radial-gradient(circle at center, #fff 0 56%, transparent 57%),
-        conic-gradient(var(--green) var(--score-angle, 0deg), #e6ede8 0);
+        conic-gradient(var(--score-color, var(--green)) var(--score-angle, 0deg), #e6ede8 0);
       box-shadow: inset 0 0 0 1px var(--line);
     }
 
@@ -387,7 +387,13 @@
     .stage-label { color: var(--orange); background: var(--orange-soft); }
     .status-pill { color: var(--blue); background: var(--blue-soft); }
     .status-risk { color: var(--red); background: var(--red-soft); }
+    .status-warn { color: var(--orange); background: var(--orange-soft); }
     .status-ok { color: var(--green-dark); background: var(--green-soft); }
+    .status-strong { color: var(--green-dark); background: #d6ede1; }
+    .tone-risk { color: var(--red) !important; }
+    .tone-warn { color: var(--orange) !important; }
+    .tone-good { color: var(--green) !important; }
+    .tone-strong { color: var(--green-dark) !important; }
 
     .result h2 {
       margin: 10px 0 6px;
@@ -634,29 +640,38 @@
 
     .report-page {
       position: relative;
-      min-height: 1123px;
       padding: 58px 62px;
       background: #fff;
       overflow: hidden;
+    }
+
+    .report-cover {
+      min-height: 1000px;
+      display: grid;
+      align-content: center;
       page-break-after: always;
       break-after: page;
     }
 
-    .report-page:last-child { page-break-after: auto; }
-    .report-page::before {
+    .report-page::before,
+    .report-page::after {
       content: "小红书：团掌柜经营有术";
       position: absolute;
-      z-index: 0;
-      top: 48%;
-      left: 50%;
+      z-index: 3;
+      left: 54%;
       transform: translate(-50%, -50%) rotate(-28deg);
-      color: rgba(28, 122, 75, .075);
-      font-size: 46px;
+      color: rgba(28, 122, 75, .035);
+      font-size: 22px;
       font-weight: 900;
       letter-spacing: 0;
       white-space: nowrap;
       pointer-events: none;
     }
+
+    .report-page::before { top: 32%; }
+    .report-page::after { top: 72%; }
+    .report-cover::after,
+    .report-final::after { display: none; }
 
     .report-page > * {
       position: relative;
@@ -676,8 +691,27 @@
 
     .report-document h1 {
       margin: 0 0 8px;
-      font-size: 34px;
+      font-size: 42px;
       line-height: 1.12;
+    }
+
+    .report-subtitle {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 750;
+      line-height: 1.5;
+    }
+
+    .report-advisor {
+      margin: 18px 0 0;
+      padding: 14px 16px;
+      border-left: 4px solid var(--green);
+      background: var(--paper-soft);
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 850;
+      line-height: 1.7;
     }
 
     .report-document h2 {
@@ -729,6 +763,8 @@
     }
 
     .report-wechat {
+      position: relative;
+      z-index: 4;
       display: grid;
       grid-template-columns: 1fr 128px;
       gap: 18px;
@@ -814,6 +850,53 @@
       font-size: 22px;
       font-weight: 900;
       white-space: nowrap;
+    }
+
+    .report-action-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .report-action-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .report-action-card h3 {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .report-action-step {
+      margin: 8px 0;
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      background: var(--paper-soft);
+      line-height: 1.55;
+    }
+
+    .report-action-step strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--green-dark);
+    }
+
+    .report-tool {
+      display: inline-flex;
+      margin-top: 6px;
+      padding: 4px 8px;
+      border-radius: var(--radius);
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 12px;
+      font-weight: 850;
     }
 
     .report-answer-list {
@@ -1072,12 +1155,12 @@
       },
       {
         min: 65,
-        max: 79,
+        max: 84,
         label: "基础管理期",
         text: "你的整体财务管理已经进入基础管理阶段，部分数据和流程能支持日常判断。这个阶段最明显的问题是：基础已经有了，但稳定性和复盘质量还不够。"
       },
       {
-        min: 80,
+        min: 85,
         max: 100,
         label: "经营支持期",
         text: "你的整体财务管理成熟度较高，已经能在一定程度上支持经营判断。这个阶段最明显的机会是：继续提高效率、预警能力和经营复盘质量。"
@@ -1093,6 +1176,11 @@
         diagnosis: "你现在最大的问题不是没收入，而是缺少利润视角。公司可能一直在忙，但你很难判断忙出来的是利润，还是消耗。如果持续这样，最容易出现的情况是：一年到头订单不少、项目不少，但最后说不清哪些钱是真赚来的，哪些只是换来了更高成本和更多精力消耗。",
         advice: "先选一个最近一个月最重要的产品、项目或客户，把收入、直接成本、相关费用和投入时间放到同一张表里，看它到底是真赚钱，还是只是看起来热闹。",
         detail: "你已经有一定利润意识，但还需要把产品、项目、客户的真实利润拆开看。",
+        actionMap: [
+          { period: "本周优先动作", action: "先选最近一个代表性项目、产品或客户，把收入、直接成本和明显相关费用放到一张表里，先算出一笔粗利润。", tool: "单项目利润测算表" },
+          { period: "本月关键复盘", action: "把本月主要业务分成“真赚钱、看着热闹但利润薄、长期消耗资源”三类，先看哪些值得继续投入。", tool: "月度业务利润复盘表" },
+          { period: "本季度长期建设", action: "建立月度利润看板，固定追踪收入、成本、费用、利润和重点客户/项目贡献，让老板每月能看清钱从哪里赚来。", tool: "老板月度利润看板" }
+        ],
         questions: [
           "你是否能定期看清公司整体收入、成本、费用和利润？",
           "你是否知道哪些产品、项目或客户真正贡献了利润？",
@@ -1108,6 +1196,11 @@
         diagnosis: "你的现金流缺少提前预警。问题可能不是完全不赚钱，而是钱进来的时间和钱出去的时间错开了。如果持续这样，公司容易在工资、房租、供应商付款集中到期时被迫临时调钱，原本正常的经营安排也会被资金缺口打乱。",
         advice: "先把未来 1-3 个月的固定支出和预计回款放到同一张表里，每周看一次资金缺口，不要等到工资、房租或供应商付款日前才临时调度。",
         detail: "现金流需要更稳定的提前安排，建议优先看未来 1-3 个月的预计回款和固定支出。",
+        actionMap: [
+          { period: "本周优先动作", action: "先列出未来 30 天确定要付的钱和大概率能收回的钱，标出最可能出现资金缺口的日期。", tool: "未来30天资金缺口表" },
+          { period: "本月关键复盘", action: "复盘本月现金紧张主要来自回款慢、支出集中、费用超出还是预测不准，先找到最影响资金安全的原因。", tool: "月度现金流问题复盘表" },
+          { period: "本季度长期建设", action: "建立未来 3 个月滚动现金流预测表，每周更新一次，让资金缺口提前被看见，而不是到付款日前临时处理。", tool: "未来3个月现金流预测表" }
+        ],
         questions: [
           "你是否知道未来 1-3 个月公司大概会进多少钱、出多少钱？",
           "你是否能提前安排工资、房租、供应商付款、税费等固定支出？",
@@ -1123,6 +1216,11 @@
         diagnosis: "你的费用不是一定太高，而是缺少分类、预算和复盘。钱花出去了，但你很难判断它到底是投入还是浪费。如果持续这样，费用会在不知不觉中变成惯性支出，真正该投的钱没投准，不该花的钱却每个月都在流出去。",
         advice: "先把最近一个月的费用分成三类：必须支出、经营投入、可疑浪费。不要急着省钱，先看清哪些钱该花，哪些钱只是惯性花掉。",
         detail: "费用管理已有一定基础，但还需要把预算、审批和复盘固定下来。",
+        actionMap: [
+          { period: "本周优先动作", action: "先把最近一个月的费用分成“必须支出、经营投入、可疑浪费”三类，马上找出最该追问的几笔钱。", tool: "费用三分类整理表" },
+          { period: "本月关键复盘", action: "复盘本月费用是否带来结果，重点看哪些费用是有效投入，哪些只是惯性支出。", tool: "月度费用效果复盘表" },
+          { period: "本季度长期建设", action: "建立费用预算和异常提醒机制，固定按月看费用分类、预算执行和异常增长原因。", tool: "费用预算与异常提醒表" }
+        ],
         questions: [
           "你是否能按月看清公司主要费用花在哪些类别上？",
           "重要费用支出前，是否有预算、审批或必要性判断？",
@@ -1138,6 +1236,11 @@
         diagnosis: "你的收入没有及时变成现金。项目完成不等于钱已经赚到，回款失控会直接吞掉利润和安全感。如果持续这样，账面收入看起来还可以，但现金压力会落到你身上：客户晚一天付款，公司就多一天资金紧张。",
         advice: "先整理一张应收账款清单，列出客户名称、未回金额、到期日、逾期天数、负责人和最近一次跟进记录。先让每一笔没收回来的钱有位置、有责任人。",
         detail: "应收款管理需要更清楚地记录金额、到期日、负责人和跟进动作。",
+        actionMap: [
+          { period: "本周优先动作", action: "先整理一张应收款清单，写清客户、金额、到期日、逾期天数、负责人和最近一次跟进动作。", tool: "应收账款跟进表" },
+          { period: "本月关键复盘", action: "复盘哪些客户、项目或合作方式最容易拖款，优先识别最影响现金流的回款风险。", tool: "客户回款风险复盘表" },
+          { period: "本季度长期建设", action: "建立应收账款跟进机制，固定提醒到期款、逾期款和高风险客户，避免项目做完后钱长期卡在客户那里。", tool: "回款提醒与账期风险表" }
+        ],
         questions: [
           "你是否能随时知道哪些客户还没付款、欠多少钱、逾期多久？",
           "每笔应收款是否有明确负责人和跟进记录？",
@@ -1153,6 +1256,11 @@
         diagnosis: "你的公司不是没有数据，而是数据没有形成固定流程。你看到问题时，往往已经晚了一步。如果持续这样，每次要做判断都要重新找人、翻聊天记录、拼表格，经营问题很难被提前发现，只能靠事后补救。",
         advice: "先确定你每月必须看的 5 个关键数据，例如收入、利润、现金余额、应收款、主要费用，并固定由谁在什么时候更新，避免每次都临时统计。",
         detail: "关键数据已经有一定基础，但还需要形成固定更新和月度复盘节奏。",
+        actionMap: [
+          { period: "本周优先动作", action: "先确定老板每月必须看的 5 个关键数据，并明确这些数据分别由谁更新、放在哪里、什么时候更新。", tool: "老板关键数据清单" },
+          { period: "本月关键复盘", action: "做一次月度经营复盘，检查收入、利润、现金、应收款和主要费用是否能稳定支持经营判断。", tool: "月度经营复盘表" },
+          { period: "本季度长期建设", action: "建立固定的数据更新和月度复盘流程，让关键经营问题能从数据里提前出现，而不是靠临时询问和事后补救。", tool: "经营数据更新流程表" }
+        ],
         questions: [
           "你想看关键经营数据时，是否能不用临时找人统计？",
           "财务、销售、交付、回款等数据是否有固定记录位置，而不是散在微信、Excel 和人脑里？",
@@ -1248,11 +1356,19 @@
         .map(({ index, remainder, ...item }) => item);
     }
 
+    function getScoreTone(score) {
+      if (score <= 49) return { statusClass: "status-risk", toneClass: "tone-risk", color: "#b43f33" };
+      if (score <= 64) return { statusClass: "status-warn", toneClass: "tone-warn", color: "#bd6b1e" };
+      if (score <= 84) return { statusClass: "status-ok", toneClass: "tone-good", color: "#1c7a4b" };
+      return { statusClass: "status-strong", toneClass: "tone-strong", color: "#145e39" };
+    }
+
     function getDimensionStatus(score) {
-      if (score <= 49) return { label: "高风险", className: "status-risk" };
-      if (score <= 64) return { label: "待加强", className: "" };
-      if (score <= 84) return { label: "有基础", className: "status-ok" };
-      return { label: "较成熟", className: "status-ok" };
+      const tone = getScoreTone(score);
+      if (score <= 49) return { label: "高风险", className: tone.statusClass, toneClass: tone.toneClass };
+      if (score <= 64) return { label: "待加强", className: tone.statusClass, toneClass: tone.toneClass };
+      if (score <= 84) return { label: "有基础", className: tone.statusClass, toneClass: tone.toneClass };
+      return { label: "较成熟", className: tone.statusClass, toneClass: tone.toneClass };
     }
 
     function getStage(score) {
@@ -1274,6 +1390,12 @@
       if (score <= 64) return "主要卡点";
       if (score <= 84) return "优先整理项";
       return "优先关注项";
+    }
+
+    function getActionMapDimensions(scores) {
+      const sorted = [...scores].sort((a, b) => a.percent - b.percent || a.priority - b.priority);
+      const belowPass = sorted.filter((item) => item.percent < 65);
+      return belowPass.length ? belowPass.slice(0, 3) : sorted.slice(0, 1);
     }
 
     function formatFocusNames(items) {
@@ -1306,12 +1428,14 @@
       const weakestGroup = getWeakestGroup(scores);
       const focusLabel = getFocusLabel(weakest.percent);
       const focusNames = formatFocusNames(weakestGroup);
+      const stageTone = getScoreTone(displayScore);
+      const actionDimensions = getActionMapDimensions(scores);
       const displayedAverage = Math.round(scores.reduce((sum, item) => sum + item.percent, 0) / scores.length);
       const scoreDiff = Math.abs(displayedAverage - displayScore);
       if (scoreDiff > 1) {
         console.info("维度展示分平均值与总分存在四舍五入差异，页面不展示五维平均分。");
       }
-      const result = { rawTotal, displayScore, stage, weakest, weakestGroup, focusLabel, focusNames, scores };
+      const result = { rawTotal, displayScore, stage, stageTone, weakest, weakestGroup, focusLabel, focusNames, scores, actionDimensions };
       return { ...result, bridge: getResultBridge(result) };
     }
 
@@ -1361,8 +1485,11 @@
       $("detailResult").style.display = "none";
 
       $("totalScore").textContent = lastResult.displayScore;
+      $("totalScore").className = lastResult.stageTone.toneClass;
       $("scoreRing").style.setProperty("--score-angle", `${lastResult.displayScore * 3.6}deg`);
+      $("scoreRing").style.setProperty("--score-color", lastResult.stageTone.color);
       $("stageLabel").textContent = `${lastResult.stage.label}｜${lastResult.stage.min}-${lastResult.stage.max}分`;
+      $("stageLabel").className = `stage-label ${lastResult.stageTone.statusClass}`;
       $("resultTitle").textContent = lastResult.weakestGroup.length > 1
         ? `你的${lastResult.focusLabel}集中在：${lastResult.focusNames}`
         : `你的${lastResult.focusLabel}是：${lastResult.focusNames}`;
@@ -1370,7 +1497,9 @@
       $("resultBridge").textContent = lastResult.bridge;
       $("resultBridge").style.display = lastResult.bridge ? "block" : "none";
       $("weakName").textContent = lastResult.focusNames;
+      $("weakName").className = `weak-name ${lastResult.weakest.percent < 65 ? lastResult.weakest.status.className : ""}`;
       $("focusBlockTitle").textContent = lastResult.focusLabel;
+      $("focusBlockTitle").className = lastResult.weakest.percent < 65 ? lastResult.weakest.status.toneClass : "";
       $("weakDiagnosis").textContent = lastResult.weakest.diagnosis;
       $("priorityAdvice").textContent = lastResult.weakest.advice;
       $("testShell").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1421,10 +1550,25 @@
               <h3>${escapeHtml(item.name)}</h3>
               <span class="status-pill ${item.status.className}">${escapeHtml(item.status.label)}</span>
             </div>
-            <div class="report-dimension-score">${item.contribution}分</div>
+            <div class="report-dimension-score ${item.status.toneClass}">${item.contribution}分</div>
           </div>
           <div class="bar-track"><div class="bar-fill" style="width:${item.percent}%"></div></div>
           <div class="report-muted">${escapeHtml(item.detail)}</div>
+        </div>
+      `).join("");
+      const actionMapHtml = lastResult.actionDimensions.map((item) => `
+        <div class="report-action-card">
+          <h3>
+            <span>${escapeHtml(item.name)}</span>
+            <span class="status-pill ${item.status.className}">${escapeHtml(item.status.label)}｜${item.contribution}分</span>
+          </h3>
+          ${item.actionMap.map((step) => `
+            <div class="report-action-step">
+              <strong>${escapeHtml(step.period)}</strong>
+              <div>${escapeHtml(step.action)}</div>
+              <span class="report-tool">对应工具：${escapeHtml(step.tool)}</span>
+            </div>
+          `).join("")}
         </div>
       `).join("");
       const answerHtml = answerRows.map((row) => `
@@ -1438,21 +1582,26 @@
       `).join("");
       return `
         <article class="report-document">
-          <section class="report-page">
+          <section class="report-page report-cover">
             <span class="report-kicker">小公司经营财务自测</span>
-            <h1>小公司财务健康诊断报告</h1>
+            <h1>你的公司财务健康体检报告</h1>
+            <p class="report-subtitle">基于 20 项关键经营动作的诊断分析</p>
             <p class="report-muted">生成时间：${formatDateTime()}｜本报告根据 20 道自测题生成，不要求填写真实金额。</p>
+            <div class="report-advisor">
+              诊断顾问：团掌柜<br>
+              前四大审计 / 集团公司财务负责人
+            </div>
             <div class="report-score-row">
-              <div class="report-card"><span>财务健康分</span><strong>${lastResult.displayScore}</strong></div>
-              <div class="report-card"><span>阶段</span><strong>${escapeHtml(lastResult.stage.label)}</strong></div>
+              <div class="report-card"><span>财务健康分</span><strong class="${lastResult.stageTone.toneClass}">${lastResult.displayScore}</strong></div>
+              <div class="report-card"><span>阶段</span><strong class="${lastResult.stageTone.toneClass}">${escapeHtml(lastResult.stage.label)}</strong></div>
             </div>
             <div class="report-card">
               <span>${escapeHtml(lastResult.focusLabel)}</span>
-              <strong>${escapeHtml(lastResult.focusNames)}</strong>
+              <strong class="${lastResult.weakest.percent < 65 ? lastResult.weakest.status.toneClass : ""}">${escapeHtml(lastResult.focusNames)}</strong>
             </div>
             <div class="report-wechat">
               <div>
-                <p>扫码添加「团掌柜」微信<br>发送本报告，预约人工报告解读</p>
+                <p>扫码添加「团掌柜」微信并发送报告，可获得人工解读及定制化行动清单。</p>
                 <code>${escapeHtml(CONFIG.wechatId)}</code>
               </div>
               <img src="${escapeHtml(CONFIG.qrImage)}" alt="团掌柜微信二维码">
@@ -1468,10 +1617,11 @@
               <h3>${escapeHtml(lastResult.focusLabel)}</h3>
               <p>${escapeHtml(lastResult.weakest.diagnosis)}</p>
             </div>
-            <div class="report-highlight">
-              <h3>优先建议</h3>
-              <p>${escapeHtml(lastResult.weakest.advice)}</p>
-            </div>
+          </section>
+          <section class="report-page">
+            <h2>你的财务整理行动地图</h2>
+            <p class="report-muted">低于 65 分的维度会进入行动地图；如果没有低于 65 分的维度，则展示最低分维度作为优先优化方向。</p>
+            <div class="report-action-list">${actionMapHtml}</div>
           </section>
           <section class="report-page">
             <h2>五维得分</h2>
@@ -1483,14 +1633,17 @@
             <p class="report-muted">以下为本次自测选择，方便你复盘，也方便后续人工解读。</p>
             <div class="report-answer-list">${answerHtml}</div>
           </section>
-          <section class="report-page">
+          <section class="report-page report-final">
             <h2>说明</h2>
             <div class="report-wechat">
               <div>
-                <p>如需人工解读，请添加「团掌柜」微信，发送本报告。</p>
+                <p>扫码添加「团掌柜」微信并发送报告，可获得人工解读及定制化行动清单。</p>
                 <code>${escapeHtml(CONFIG.wechatId)}</code>
               </div>
               <img src="${escapeHtml(CONFIG.qrImage)}" alt="团掌柜微信二维码">
+            </div>
+            <div class="report-highlight">
+              如果你需要本报告中的模板或与你的业务系统联动的自动化看板，或需要定制化的深度财务流程梳理，可联系团掌柜了解详情。
             </div>
             <p class="report-muted" style="margin-top:14px;">本工具用于经营财务管理自测，结果仅供管理参考，不涉及税务、审计或会计准则判断。</p>
             <p class="report-muted">本工具不要求填写公司名称、手机号、真实金额或具体财务数据。测试结果只保存在当前浏览器，不上传后台。</p>
@@ -1510,7 +1663,7 @@
         if (window.html2pdf) {
           await window.html2pdf().set({
             margin: 0,
-            filename: `小公司财务健康诊断报告_${formatDateTime().slice(0, 10)}.pdf`,
+            filename: `公司财务健康体检报告_${formatDateTime().slice(0, 10)}.pdf`,
             image: { type: "jpeg", quality: 0.96 },
             html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
             jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
