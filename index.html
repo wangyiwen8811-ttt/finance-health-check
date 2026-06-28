@@ -418,7 +418,7 @@
 
     .result-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 14px;
       margin-top: 14px;
     }
@@ -1086,10 +1086,6 @@
             <h3 id="focusBlockTitle">主要卡点</h3>
             <p id="weakDiagnosis"></p>
           </div>
-          <div class="result-block">
-            <h3>优先建议</h3>
-            <p class="advice" id="priorityAdvice"></p>
-          </div>
         </div>
 
         <p class="note">下载诊断报告后，可保存你的 20 题选择、五维得分和诊断结论；本工具不上传测试数据，如果更换设备、清理浏览器或关闭后无法找回，可能需要重新测试。</p>
@@ -1501,7 +1497,6 @@
       $("focusBlockTitle").textContent = lastResult.focusLabel;
       $("focusBlockTitle").className = lastResult.weakest.percent < 65 ? lastResult.weakest.status.toneClass : "";
       $("weakDiagnosis").textContent = lastResult.weakest.diagnosis;
-      $("priorityAdvice").textContent = lastResult.weakest.advice;
       $("testShell").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
@@ -1587,10 +1582,6 @@
             <h1>你的公司财务健康体检报告</h1>
             <p class="report-subtitle">基于 20 项关键经营动作的诊断分析</p>
             <p class="report-muted">生成时间：${formatDateTime()}｜本报告根据 20 道自测题生成，不要求填写真实金额。</p>
-            <div class="report-advisor">
-              诊断顾问：团掌柜<br>
-              前四大审计 / 集团公司财务负责人
-            </div>
             <div class="report-score-row">
               <div class="report-card"><span>财务健康分</span><strong class="${lastResult.stageTone.toneClass}">${lastResult.displayScore}</strong></div>
               <div class="report-card"><span>阶段</span><strong class="${lastResult.stageTone.toneClass}">${escapeHtml(lastResult.stage.label)}</strong></div>
@@ -1599,6 +1590,10 @@
               <span>${escapeHtml(lastResult.focusLabel)}</span>
               <strong class="${lastResult.weakest.percent < 65 ? lastResult.weakest.status.toneClass : ""}">${escapeHtml(lastResult.focusNames)}</strong>
             </div>
+            <div class="report-advisor">
+              诊断顾问：团掌柜<br>
+              前四大审计 / 集团公司财务负责人
+            </div>
             <div class="report-wechat">
               <div>
                 <p>扫码添加「团掌柜」微信并发送报告，可获得人工解读及定制化行动清单。</p>
@@ -1606,7 +1601,6 @@
               </div>
               <img src="${escapeHtml(CONFIG.qrImage)}" alt="团掌柜微信二维码">
             </div>
-            <p class="report-muted" style="margin-top:14px;">五项得分合计为财务健康分。维度状态用于判断当前更需要优先整理的环节。</p>
           </section>
           <section class="report-page">
             <h2>诊断结论</h2>
@@ -1620,12 +1614,10 @@
           </section>
           <section class="report-page">
             <h2>你的财务整理行动地图</h2>
-            <p class="report-muted">低于 65 分的维度会进入行动地图；如果没有低于 65 分的维度，则展示最低分维度作为优先优化方向。</p>
             <div class="report-action-list">${actionMapHtml}</div>
           </section>
           <section class="report-page">
             <h2>五维得分</h2>
-            <p class="report-muted">五项得分合计为财务健康分。这里展示的是各维度对总分的贡献，不是原始答题分。</p>
             <div class="report-dimension-list">${dimensionHtml}</div>
           </section>
           <section class="report-page">
@@ -1643,7 +1635,7 @@
               <img src="${escapeHtml(CONFIG.qrImage)}" alt="团掌柜微信二维码">
             </div>
             <div class="report-highlight">
-              如果你需要本报告中的模板或与你的业务系统联动的自动化看板，或需要定制化的深度财务流程梳理，可联系团掌柜了解详情。
+              如果你需要本报告中的模板、与你的业务系统联动的自动化看板、定制化的深度财务流程梳理，可联系团掌柜了解详情。
             </div>
             <p class="report-muted" style="margin-top:14px;">本工具用于经营财务管理自测，结果仅供管理参考，不涉及税务、审计或会计准则判断。</p>
             <p class="report-muted">本工具不要求填写公司名称、手机号、真实金额或具体财务数据。测试结果只保存在当前浏览器，不上传后台。</p>
